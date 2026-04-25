@@ -634,8 +634,6 @@ export default function App() {
               </motion.div>
             </div>
 
-            </div>
-
             <div className="mt-5 md:mt-12 pt-4 md:pt-8 border-t border-[#BAE6FD]/40 flex flex-col items-center">
               <p className="text-[10px] md:text-sm text-[#334155] mb-2 md:mb-4">Atau temukan saya di platform lain</p>
               <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="flex gap-3 md:gap-4">
