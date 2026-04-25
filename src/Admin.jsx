@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useData } from './useData';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Save, Download, RotateCcw, Plus, Trash2, ChevronLeft,
-  User, BookOpen, Briefcase, Wrench, FolderOpen, X, Check,
+  Save, Download, RotateCcw, Plus, Trash2,
+  User, BookOpen, Briefcase, Wrench, FolderOpen, Check,
   ArrowLeft, Wand2
 } from 'lucide-react';
 
@@ -71,11 +71,10 @@ function ItemCard({ children, onDelete }) {
 }
 
 export default function Admin() {
-  const { data, saveData, resetData, exportJSON, defaultData } = useData();
+  const { data, saveData, resetData, defaultData } = useData();
   const [draft, setDraft] = useState(JSON.parse(JSON.stringify(data)));
   const [activeTab, setActiveTab] = useState('profile');
   const [toast, setToast] = useState({ show: false, message: '' });
-  const [mobileTabOpen, setMobileTabOpen] = useState(false);
   const [generatingId, setGeneratingId] = useState(null);
 
   const showToast = (message) => setToast({ show: true, message });

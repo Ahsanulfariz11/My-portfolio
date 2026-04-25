@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useData } from './useData';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  Menu, X, ExternalLink, Code2, Layout, Database, Terminal,
-  GitBranch, MonitorSmartphone, Send, Briefcase, Mail,
-  CheckCircle2, Clock, Lightbulb, Globe, Image, UserCircle, BookOpen
+  Menu, X, ExternalLink, MonitorSmartphone, Send, Briefcase, Mail,
+  CheckCircle2, Clock, Lightbulb, Globe, BookOpen, ChevronUp
 } from 'lucide-react';
 
 // Brand icons were removed in recent Lucide versions.
@@ -38,7 +37,7 @@ const Linkedin = ({ size = 24, className = "" }) => (
   </svg>
 );
 
-const Figma = Layout;
+
 
 // Memperbaiki ReferenceError untuk tailwind di beberapa environment
 if (typeof window !== 'undefined') {
@@ -138,6 +137,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F0F9FF] text-[#0F172A] font-sans selection:bg-[#BAE6FD] selection:text-[#0F172A] overflow-x-hidden">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[9999] bg-[#0EA5E9] text-white px-4 py-2 rounded-lg font-medium shadow-xl">Skip to main content</a>
       {/* Injecting Fonts */}
       <style dangerouslySetInnerHTML={{__html: `
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Poppins:wght@500;600;700&display=swap');
@@ -154,23 +154,24 @@ export default function App() {
             animate={{ opacity: 1, x: 0 }}
             className="flex items-center"
           >
-            <img src="/itku-logo.png" alt="ITku Logo" className="h-8 md:h-10 w-auto" />
+            <img src="/itku-logo.png" alt="ITku Logo" width={150} height={40} className="h-8 md:h-10 w-auto" />
           </motion.div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex gap-8 font-medium">
             {['Home', 'About', 'Projects', 'Contact'].map((item, i) => (
-              <motion.button 
+              <motion.a 
                 key={item} 
+                href={`#${item.toLowerCase()}`}
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                onClick={() => scrollTo(item.toLowerCase())} 
+                onClick={(e) => { e.preventDefault(); scrollTo(item.toLowerCase()); }} 
                 className="hover:text-[#0EA5E9] transition-colors relative group"
               >
                 {item}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#0EA5E9] transition-all group-hover:w-full"></span>
-              </motion.button>
+              </motion.a>
             ))}
           </div>
 
@@ -190,15 +191,21 @@ export default function App() {
               className="absolute top-full left-0 w-full bg-[#F0F9FF]/95 backdrop-blur-xl shadow-xl flex flex-col py-6 px-6 gap-1 md:hidden border-t border-[#BAE6FD]/30 overflow-hidden"
             >
               {['Home', 'About', 'Projects', 'Contact'].map((item) => (
-                <button key={item} onClick={() => scrollTo(item.toLowerCase())} className="text-left py-3 px-4 font-medium hover:text-[#0EA5E9] hover:bg-[#BAE6FD]/20 rounded-xl transition-all">
+                <a 
+                  key={item} 
+                  href={`#${item.toLowerCase()}`}
+                  onClick={(e) => { e.preventDefault(); scrollTo(item.toLowerCase()); }} 
+                  className="text-left py-3 px-4 font-medium hover:text-[#0EA5E9] hover:bg-[#BAE6FD]/20 rounded-xl transition-all block w-full"
+                >
                   {item}
-                </button>
+                </a>
               ))}
             </motion.div>
           )}
         </AnimatePresence>
       </nav>
 
+      <main id="main-content">
       {/* HERO SECTION */}
       <section id="home" className="min-h-screen flex flex-col pt-16 md:pt-20 relative overflow-hidden">
         {/* Background Decorative Blob */}
@@ -223,10 +230,18 @@ export default function App() {
             viewport={{ once: true }}
             className="flex-1 text-center md:text-left flex flex-col md:justify-center"
           >
-            <div>
-              <span className="inline-block py-1 px-3 rounded-full bg-[#BAE6FD]/30 text-[#334155] font-medium text-xs md:text-sm mb-3 md:mb-6 border border-[#BAE6FD]/50">
-                {DATA.profile.role}
-              </span>
+            <div className="flex justify-center md:justify-start mb-4 md:mb-6">
+              <motion.div 
+                whileHover={{ scale: 1.05 }}
+                className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-white/60 backdrop-blur-md text-[#0284C7] font-bold text-[10px] md:text-sm border border-[#0EA5E9]/20 shadow-[0_4px_15px_rgba(14,165,233,0.1)] relative overflow-hidden group hover:border-[#0EA5E9]/40 transition-colors"
+              >
+                <span className="relative flex w-2 h-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0EA5E9] opacity-75"></span>
+                  <span className="relative inline-flex rounded-full w-2 h-2 bg-[#0EA5E9]"></span>
+                </span>
+                <span className="tracking-[0.15em] uppercase">{DATA.profile.role}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out" />
+              </motion.div>
             </div>
             <h1 className="text-[1.65rem] sm:text-4xl md:text-7xl font-bold mb-2 md:mb-6 text-[#0F172A] font-heading leading-tight">
               Hi, I'm<br className="md:hidden" /> {DATA.profile.name}.
@@ -297,27 +312,34 @@ export default function App() {
               {/* Efek glow tambahan */}
               <div className="absolute inset-x-0 bottom-0 w-full h-2/3 bg-gradient-to-t from-[#BAE6FD]/60 to-transparent rounded-full blur-3xl animate-pulse -z-20"></div>
               
-              {/* Floating Icons - hidden on mobile to prevent overlap */}
+              {/* Floating Icons Gained Depth */}
+              
+              {/* VS Code - Paling Dekat (Paling Besar) */}
               <div 
-                className="hidden sm:block absolute top-1/3 -left-1 md:-left-8 lg:-left-12 -rotate-6 z-40 hover:scale-110 transition-transform cursor-pointer drop-shadow-lg"
+                className="absolute top-[38%] -left-1 sm:-left-3 md:-left-8 lg:-left-12 -rotate-12 z-40 drop-shadow-2xl"
               >
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VS Code" className="w-10 h-10 md:w-14 md:h-14 object-contain" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VS Code" width={56} height={56} className="w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-contain hover:scale-110 transition-transform cursor-pointer" />
               </div>
+
+              {/* Premiere Pro - Jarak Menengah */}
               <div 
-                className="hidden sm:block absolute bottom-20 md:bottom-32 -right-2 md:-right-8 lg:-right-12 rotate-6 z-40 hover:scale-110 transition-transform cursor-pointer drop-shadow-lg"
+                className="absolute bottom-[24%] -right-1 sm:-right-2 md:-right-8 lg:-right-12 rotate-6 z-40 drop-shadow-lg"
               >
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/premierepro/premierepro-original.svg" alt="Premiere Pro" className="w-10 h-10 md:w-14 md:h-14 object-contain" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/premierepro/premierepro-original.svg" alt="Premiere Pro" width={56} height={56} className="w-9 h-9 sm:w-10 sm:h-10 md:w-14 md:h-14 object-contain hover:scale-110 transition-transform cursor-pointer" />
               </div>
+
+              {/* Figma - Paling Jauh (Kecil, Blurry di Mobile) */}
               <div 
-                className="hidden sm:block absolute top-16 md:top-24 right-0 md:-right-6 lg:-right-10 rotate-12 z-40 hover:scale-110 transition-transform cursor-pointer drop-shadow-lg"
+                className="absolute top-[22%] right-4 sm:right-2 md:-right-6 lg:-right-10 rotate-12 z-20 drop-shadow-sm opacity-80"
               >
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" className="w-10 h-10 md:w-16 md:h-16 object-contain" />
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" alt="Figma" width={64} height={64} className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12 object-contain hover:scale-110 transition-transform cursor-pointer blur-[1px] md:blur-none" />
               </div>
 
               {/* Foto Utama */}
               <img 
                 src={DATA.profile.image} 
                 alt={DATA.profile.name} 
+                width={600} height={600}
                 className="relative z-10 w-full h-auto object-bottom"
               />
               {/* Efek pudar di bawah foto */}
@@ -458,6 +480,7 @@ export default function App() {
                         <img 
                           src={item.icon} 
                           alt={item.name} 
+                          width={28} height={28}
                           className="w-5 h-5 md:w-7 md:h-7 object-contain group-hover:scale-110 transition-transform duration-300"
                         />
                         <span className="font-medium text-[#0F172A] text-xs md:text-base">{item.name}</span>
@@ -533,6 +556,7 @@ export default function App() {
                     <img 
                       src={project.image} 
                       alt={project.title} 
+                      width={400} height={300}
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>
@@ -634,8 +658,6 @@ export default function App() {
               </motion.div>
             </div>
 
-            </div>
-
             <div className="mt-5 md:mt-12 pt-4 md:pt-8 border-t border-[#BAE6FD]/40 flex flex-col items-center">
               <p className="text-[10px] md:text-sm text-[#334155] mb-2 md:mb-4">Atau temukan saya di platform lain</p>
               <motion.div variants={staggerContainer} initial="hidden" whileInView="visible" viewport={{ once: true }} className="flex gap-3 md:gap-4">
@@ -658,9 +680,25 @@ export default function App() {
           </motion.div>
         </div>
       </section>
+      </main>
+
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.button 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-[40] w-10 h-10 md:w-12 md:h-12 bg-[#0EA5E9] text-white rounded-full flex items-center justify-center shadow-lg hover:bg-[#0284C7] hover:scale-110 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#0EA5E9]"
+            aria-label="Scroll to top"
+          >
+            <ChevronUp size={24} />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* FOOTER */}
-      <footer className="py-8 text-center text-[#334155] text-sm">
+      <footer className="relative z-50 bg-[#F0F9FF] py-8 pb-12 md:pb-8 text-center text-[#334155] text-sm">
         <p>© {new Date().getFullYear()} {DATA.profile.name}.</p>
       </footer>
     </div>
