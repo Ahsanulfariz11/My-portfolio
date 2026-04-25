@@ -480,7 +480,10 @@ export default function App() {
                           src={item.icon} 
                           alt={item.name} 
                           width={28} height={28}
+<<<<<<< HEAD
                           loading="lazy"
+=======
+>>>>>>> 4681ed826860eb0037bb95c5d7eeaba856c293fa
                           className="w-5 h-5 md:w-7 md:h-7 object-contain group-hover:scale-110 transition-transform duration-300"
                         />
                         <span className="font-medium text-[#0F172A] text-xs md:text-base">{item.name}</span>
@@ -557,7 +560,10 @@ export default function App() {
                       src={project.image} 
                       alt={project.title} 
                       width={400} height={300}
+<<<<<<< HEAD
                       loading="lazy"
+=======
+>>>>>>> 4681ed826860eb0037bb95c5d7eeaba856c293fa
                       className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>
